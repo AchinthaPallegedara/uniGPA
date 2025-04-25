@@ -18,3 +18,5 @@ export const auth = betterAuth({
   },
   plugins: [nextCookies(), oneTap()],
 });
+
+export type Session = typeof auth.$Infer.Session;
