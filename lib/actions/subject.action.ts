@@ -15,7 +15,7 @@ const subjectSchema = z.object({
   year: z.coerce.number().int().positive(),
   semester: z.coerce.number().int().min(1).max(2),
   credits: z.coerce.number().int().positive(),
-  grade: z.string().optional(),
+  grade: z.string(), // Changed from optional to required
 });
 
 // Helper function to get the current session
@@ -44,7 +44,7 @@ export const addSubject = async (formData: FormData) => {
       year: formData.get("year"),
       semester: formData.get("semester"),
       credits: formData.get("credits"),
-      grade: formData.get("grade"),
+      grade: formData.get("grade") || "N/A", // Default to "N/A" if no grade provided
     });
 
     if (!validatedFields.success) {
@@ -110,6 +110,104 @@ export const getSubjects = async () => {
   } catch (error) {
     console.error("Error fetching subjects:", error);
     return { error: "Failed to fetch subjects", success: false, data: [] };
+  }
+};
+
+// Get the previous semesters' subjects (all except the last semester)
+export const getPreviousSemestersSubjects = async () => {
+  try {
+    // Get the current user session
+    const session = await getSession();
+
+    if (!session || !session.user) {
+      return { error: "Unauthorized", success: false, data: [] };
+    }
+
+    const userId = session.user.id;
+
+    // First, get all subjects to determine the latest semester
+    const allSubjects = await db
+      .select()
+      .from(subject)
+      .where(eq(subject.userId, userId))
+      .orderBy(subject.year, subject.semester);
+
+    if (allSubjects.length === 0) {
+      return { success: true, data: [] };
+    }
+
+    // Find the latest year and semester
+    const latestSubject = allSubjects.reduce((latest, current) => {
+      if (current.year > latest.year) return current;
+      if (current.year === latest.year && current.semester > latest.semester)
+        return current;
+      return latest;
+    }, allSubjects[0]);
+
+    // Filter out subjects from the latest semester
+    const previousSubjects = allSubjects.filter(
+      (s) =>
+        !(
+          s.year === latestSubject.year && s.semester === latestSubject.semester
+        )
+    );
+
+    return { success: true, data: previousSubjects };
+  } catch (error) {
+    console.error("Error fetching previous semester subjects:", error);
+    return {
+      error: "Failed to fetch previous semester subjects",
+      success: false,
+      data: [],
+    };
+  }
+};
+
+// Get just the last semester's subjects
+export const getLastSemesterSubjects = async () => {
+  try {
+    // Get the current user session
+    const session = await getSession();
+
+    if (!session || !session.user) {
+      return { error: "Unauthorized", success: false, data: [] };
+    }
+
+    const userId = session.user.id;
+
+    // First, get all subjects to determine the latest semester
+    const allSubjects = await db
+      .select()
+      .from(subject)
+      .where(eq(subject.userId, userId))
+      .orderBy(subject.year, subject.semester);
+
+    if (allSubjects.length === 0) {
+      return { success: true, data: [] };
+    }
+
+    // Find the latest year and semester
+    const latestSubject = allSubjects.reduce((latest, current) => {
+      if (current.year > latest.year) return current;
+      if (current.year === latest.year && current.semester > latest.semester)
+        return current;
+      return latest;
+    }, allSubjects[0]);
+
+    // Filter to include only subjects from the latest semester
+    const lastSemesterSubjects = allSubjects.filter(
+      (s) =>
+        s.year === latestSubject.year && s.semester === latestSubject.semester
+    );
+
+    return { success: true, data: lastSemesterSubjects };
+  } catch (error) {
+    console.error("Error fetching last semester subjects:", error);
+    return {
+      error: "Failed to fetch last semester subjects",
+      success: false,
+      data: [],
+    };
   }
 };
 
@@ -210,7 +308,7 @@ export const updateSubject = async (id: string, formData: FormData) => {
       year: formData.get("year"),
       semester: formData.get("semester"),
       credits: formData.get("credits"),
-      grade: formData.get("grade"),
+      grade: formData.get("grade") || "N/A", // Default to "N/A" if no grade provided
     });
 
     if (!validatedFields.success) {
@@ -258,7 +356,7 @@ export const updateSubjectGrade = async (id: string, grade: string) => {
     await db
       .update(subject)
       .set({
-        grade,
+        grade, // Grade is now required
         updatedAt: new Date(),
       })
       .where(and(eq(subject.id, id), eq(subject.userId, userId)));

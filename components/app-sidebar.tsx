@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import {
-  IconChartBar,
+  // IconChartBar,
   IconDashboard,
   IconInnerShadowTop,
   IconListDetails,
@@ -42,11 +42,11 @@ export function AppSidebar({ session, ...props }: AppSidebarProps) {
         url: `/dashboard/${session.user.id}/subjects`,
         icon: IconListDetails,
       },
-      {
-        title: "Analytics",
-        url: `/dashboard/${session.user.id}/analytics`,
-        icon: IconChartBar,
-      },
+      // {
+      //   title: "Analytics",
+      //   url: `/dashboard/${session.user.id}/analytics`,
+      //   icon: IconChartBar,
+      // },
     ],
   };
   return (

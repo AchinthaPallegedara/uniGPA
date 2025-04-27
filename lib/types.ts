@@ -6,5 +6,4 @@ export interface Subject {
   semester: number;
   credits: number;
   grade: string;
-  order: number; // Added for drag and drop ordering
 }

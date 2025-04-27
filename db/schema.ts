@@ -63,7 +63,7 @@ export const subject = pgTable("subject", {
   year: integer("year").notNull(),
   semester: integer("semester").notNull(),
   credits: integer("credits").notNull(),
-  grade: text("grade"),
+  grade: text("grade").notNull(),
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),

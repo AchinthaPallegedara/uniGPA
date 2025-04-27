@@ -36,9 +36,7 @@ type GroupedSubjects = {
 };
 
 // Helper function to calculate GPA from letter grades
-const getGradePoint = (grade: string | null): number => {
-  if (!grade) return 0;
-
+const getGradePoint = (grade: string): number => {
   const gradePoints: Record<string, number> = {
     "A+": 4.0,
     A: 4.0,
@@ -51,8 +49,8 @@ const getGradePoint = (grade: string | null): number => {
     "C-": 1.7,
     "D+": 1.3,
     D: 1.0,
-    E: 0.0,
     F: 0.0,
+    "N/A": 0.0, // Default value for "Not Applicable"
   };
   return gradePoints[grade] || 0;
 };
@@ -70,7 +68,6 @@ const gradeOptions = [
   "C-",
   "D+",
   "D",
-  "E",
   "F",
 ];
 
@@ -119,7 +116,8 @@ export function SubjectTable() {
   const gpa = useMemo(() => {
     if (totalCredits === 0) return 0;
     const totalPoints = subjects.reduce(
-      (sum, subject) => sum + getGradePoint(subject.grade) * subject.credits,
+      (sum, subject) =>
+        sum + getGradePoint(subject.grade ?? "N/A") * subject.credits,
       0
     );
     return totalPoints / totalCredits;
