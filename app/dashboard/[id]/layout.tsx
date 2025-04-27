@@ -36,14 +36,9 @@ const Layout = async ({ children, params }: Props) => {
     >
       <AppSidebar variant="inset" session={session} />
       <SidebarInset>
-        <SiteHeader />
+        <SiteHeader name={session.user.name} />
         <div className="flex flex-1 flex-col">
           <div className="@container/main flex flex-1 flex-col gap-2">
-            {/* <SectionCards />
-            <div className="px-4 lg:px-6">
-              <ChartAreaInteractive />
-            </div>
-            <DataTable data={data} /> */}
             {children}
           </div>
         </div>

@@ -60,7 +60,7 @@ export function AppSidebar({ session, ...props }: AppSidebarProps) {
             >
               <a href="#">
                 <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Bhagi GPA</span>
+                <span className="text-base font-semibold">Uni GPA</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
