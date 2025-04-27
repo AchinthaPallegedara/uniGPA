@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 const SignIn = () => {
   return (
     <form action={() => signIn()}>
-      <Button type="submit">Sign in</Button>
+      <Button type="submit">Sign in with Google</Button>
     </form>
   );
 };

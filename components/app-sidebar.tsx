@@ -27,9 +27,9 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 export function AppSidebar({ session, ...props }: AppSidebarProps) {
   const data = {
     user: {
-      name: session.user.name || "shadcn",
+      name: session.user.name || "achintha",
       email: session.user.email || "m@example.com",
-      avatar: session.user.image || "/avatars/shadcn.jpg",
+      avatar: session.user.image || "/claviq.png",
     },
     navMain: [
       {
@@ -60,7 +60,7 @@ export function AppSidebar({ session, ...props }: AppSidebarProps) {
             >
               <a href="#">
                 <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Uni GPA</span>
+                <span className="text-base font-semibold">Bhagi GPA</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
