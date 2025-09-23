@@ -58,7 +58,7 @@ export const verification = pgTable("verification", {
 
 export const subject = pgTable("subject", {
   id: text("id").primaryKey(),
-  code: text("code").notNull().unique(),
+  code: text("code").notNull(),
   name: text("name").notNull(),
   year: integer("year").notNull(),
   semester: integer("semester").notNull(),
