@@ -75,9 +75,9 @@ const calculateGPA = (subjects: Subject[]): number => {
   return totalCredits > 0 ? +(totalPoints / totalCredits).toFixed(2) : 0;
 };
 
-// Helper to check if a grade is below C+
+// Helper to check if a grade is below C
 const isLowGrade = (grade: string): boolean => {
-  const lowGrades = ["C", "C-", "D+", "D", "F"];
+  const lowGrades = ["C-", "D+", "D", "F"];
   return lowGrades.includes(grade);
 };
 
@@ -280,7 +280,7 @@ const QuickGPATable: React.FC = () => {
       {filteredSubjects.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Subjects with Low Grades (Below C+)</CardTitle>
+            <CardTitle>Subjects with Low Grades (Below C)</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
