@@ -92,7 +92,7 @@ const getGradeColor = (grade: string): string => {
 };
 
 // Available grade options for simulation
-const simulationGradeOptions = ["C+", "B-", "B", "B+", "A-", "A", "A+"];
+const simulationGradeOptions = ["C", "C-", "D+", "D", "F"];
 
 // Available grade options for new subjects
 const allGradeOptions = [
@@ -120,8 +120,8 @@ const QuickGPATable: React.FC = () => {
 
   // State for new dummy subject
   const [newSubject, setNewSubject] = useState<Partial<Subject>>({
-    code: "",
-    name: "Dummy Subject",
+    code: "NUR XXXX",
+    name: "Subject",
     credits: 3,
     grade: "C+",
     year: new Date().getFullYear(),
